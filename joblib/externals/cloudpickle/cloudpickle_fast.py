@@ -599,6 +599,8 @@ class CloudPickler(Pickler):
 
     def dump(self, obj):
         try:
+            if sys.getrecursionlimit() < 100000:
+                sys.setrecursionlimit(100000)
             return Pickler.dump(self, obj)
         except RuntimeError as e:
             if "recursion" in e.args[0]:
